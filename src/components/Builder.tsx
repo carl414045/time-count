@@ -18,8 +18,9 @@ export function Builder() {
   const [bgColor, setBgColor] = useState("#ffffff");
   const [textColor, setTextColor] = useState("#000000");
 
-  const [embedWidth, setEmbedWidth] = useState("100");
+  const [embedWidth, setEmbedWidth] = useState("800");
   const [embedHeight, setEmbedHeight] = useState("300");
+  const [isResponsiveWidth, setIsResponsiveWidth] = useState(true);
   const [showSeconds, setShowSeconds] = useState(true);
   
   const [titleSize, setTitleSize] = useState("18");
@@ -52,9 +53,10 @@ export function Builder() {
     if (fontFamily) url.searchParams.set("fontFamily", fontFamily);
     if (titleFontFamily) url.searchParams.set("titleFontFamily", titleFontFamily);
     
-    const code = `<iframe src="${url.toString()}" width="${embedWidth}%" height="${embedHeight}px" style="border:none; border-radius: 12px; overflow:hidden;" allowtransparency="true"></iframe>`;
+    const finalWidth = isResponsiveWidth ? "100%" : `${embedWidth}px`;
+    const code = `<iframe src="${url.toString()}" width="${finalWidth}" height="${embedHeight}px" style="border:none; border-radius: 12px; overflow:hidden;" allowtransparency="true"></iframe>`;
     setEmbedCode(code);
-  }, [targetDate, title, theme, bgColor, textColor, embedWidth, embedHeight, showSeconds, titleSize, numberSize, labelSize, fontFamily, titleFontFamily]);
+  }, [targetDate, title, theme, bgColor, textColor, embedWidth, embedHeight, showSeconds, titleSize, numberSize, labelSize, fontFamily, titleFontFamily, isResponsiveWidth]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(embedCode);
@@ -328,23 +330,41 @@ export function Builder() {
 
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-sm font-medium text-neutral-700 mb-1">
-                    小工具寬度
-                  </label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-sm font-medium text-neutral-700">
+                      寬度
+                    </label>
+                    <label className="flex items-center gap-1.5 text-xs text-neutral-500 cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        checked={isResponsiveWidth} 
+                        onChange={(e) => setIsResponsiveWidth(e.target.checked)}
+                        className="rounded border-neutral-300 text-blue-600 focus:ring-blue-500 w-3 h-3" 
+                      />
+                      自適應(100%)
+                    </label>
+                  </div>
                   <div className="flex items-center gap-2">
                     <input
                       type="number"
-                      value={embedWidth}
-                      onChange={(e) => setEmbedWidth(e.target.value)}
-                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                      placeholder="100"
+                      value={isResponsiveWidth ? 100 : embedWidth}
+                      onChange={(e) => {
+                        if (!isResponsiveWidth) {
+                          setEmbedWidth(e.target.value);
+                        }
+                      }}
+                      disabled={isResponsiveWidth}
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all disabled:bg-neutral-100 disabled:text-neutral-400"
+                      placeholder="800"
                     />
-                    <span className="text-sm text-neutral-500 font-medium w-6 shrink-0">%</span>
+                    <span className="text-sm text-neutral-500 font-medium w-6 shrink-0 text-center">
+                      {isResponsiveWidth ? "%" : "px"}
+                    </span>
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-neutral-700 mb-1">
-                    小工具高度
+                    高度
                   </label>
                   <div className="flex items-center gap-2">
                     <input
@@ -354,7 +374,7 @@ export function Builder() {
                       className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                       placeholder="300"
                     />
-                    <span className="text-sm text-neutral-500 font-medium w-6 shrink-0">px</span>
+                    <span className="text-sm text-neutral-500 font-medium w-6 shrink-0 text-center">px</span>
                   </div>
                 </div>
               </div>
@@ -392,10 +412,11 @@ export function Builder() {
               <div 
                 className="relative bg-white shadow-xl ring-1 ring-black/5 transition-all duration-300"
                 style={{ 
-                  width: embedWidth ? `${embedWidth}%` : '100%', 
+                  width: isResponsiveWidth ? '100%' : `${embedWidth}px`, 
                   height: embedHeight ? `${embedHeight}px` : '300px',
                   borderRadius: "12px",
-                  overflow: "hidden"
+                  overflow: "hidden",
+                  maxWidth: "100%"
                 }}
               >
                 {theme === "transparent" && (
