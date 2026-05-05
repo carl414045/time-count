@@ -28,6 +28,9 @@ export function Builder() {
   const [labelSize, setLabelSize] = useState("10");
   const [fontFamily, setFontFamily] = useState("'Inter', sans-serif");
   const [titleFontFamily, setTitleFontFamily] = useState("'Inter', sans-serif");
+  const [titleGap, setTitleGap] = useState("32");
+  const [timeGap, setTimeGap] = useState("24");
+  const [blockPadding, setBlockPadding] = useState("16");
 
   const [embedCode, setEmbedCode] = useState("");
   const [copied, setCopied] = useState(false);
@@ -52,11 +55,14 @@ export function Builder() {
     if (labelSize) url.searchParams.set("labelSize", labelSize);
     if (fontFamily) url.searchParams.set("fontFamily", fontFamily);
     if (titleFontFamily) url.searchParams.set("titleFontFamily", titleFontFamily);
+    if (titleGap) url.searchParams.set("titleGap", titleGap);
+    if (timeGap) url.searchParams.set("timeGap", timeGap);
+    if (blockPadding) url.searchParams.set("blockPadding", blockPadding);
     
     const finalWidth = isResponsiveWidth ? "100%" : `${embedWidth}px`;
     const code = `<iframe src="${url.toString()}" width="${finalWidth}" height="${embedHeight}px" style="border:none; border-radius: 12px; overflow:hidden;" allowtransparency="true"></iframe>`;
     setEmbedCode(code);
-  }, [targetDate, title, theme, bgColor, textColor, embedWidth, embedHeight, showSeconds, titleSize, numberSize, labelSize, fontFamily, titleFontFamily, isResponsiveWidth]);
+  }, [targetDate, title, theme, bgColor, textColor, embedWidth, embedHeight, showSeconds, titleSize, numberSize, labelSize, fontFamily, titleFontFamily, isResponsiveWidth, titleGap, timeGap, blockPadding]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(embedCode);
@@ -316,6 +322,49 @@ export function Builder() {
                       </div>
                     </div>
                   </div>
+
+                  <h4 className="text-sm font-medium text-neutral-700 mb-3 pt-4 border-t border-neutral-50">間距設定</h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-xs text-neutral-500 mb-1">標題與時間間距</label>
+                      <div className="flex items-center gap-1.5">
+                        <input
+                          type="number"
+                          value={titleGap}
+                          onChange={(e) => setTitleGap(e.target.value)}
+                          className="w-full text-sm px-2 py-1.5 border border-neutral-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          placeholder="32"
+                        />
+                        <span className="text-xs text-neutral-500 shrink-0">px</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs text-neutral-500 mb-1">時間區塊間距</label>
+                      <div className="flex items-center gap-1.5">
+                        <input
+                          type="number"
+                          value={timeGap}
+                          onChange={(e) => setTimeGap(e.target.value)}
+                          className="w-full text-sm px-2 py-1.5 border border-neutral-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          placeholder="24"
+                        />
+                        <span className="text-xs text-neutral-500 shrink-0">px</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs text-neutral-500 mb-1">時間框內留白</label>
+                      <div className="flex items-center gap-1.5">
+                        <input
+                          type="number"
+                          value={blockPadding}
+                          onChange={(e) => setBlockPadding(e.target.value)}
+                          className="w-full text-sm px-2 py-1.5 border border-neutral-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          placeholder="16"
+                        />
+                        <span className="text-xs text-neutral-500 shrink-0">px</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -415,8 +464,7 @@ export function Builder() {
                   width: isResponsiveWidth ? '100%' : `${embedWidth}px`, 
                   height: embedHeight ? `${embedHeight}px` : '300px',
                   borderRadius: "12px",
-                  overflow: "hidden",
-                  maxWidth: "100%"
+                  overflow: "hidden"
                 }}
               >
                 {theme === "transparent" && (
@@ -435,6 +483,9 @@ export function Builder() {
                     labelSize={labelSize}
                     fontFamily={fontFamily}
                     titleFontFamily={titleFontFamily}
+                    titleGap={titleGap}
+                    timeGap={timeGap}
+                    blockPadding={blockPadding}
                   />
                 </div>
               </div>

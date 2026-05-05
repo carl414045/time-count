@@ -23,6 +23,10 @@ export default function App() {
     const fontFamily = params.get('fontFamily') || undefined;
     const titleFontFamily = params.get('titleFontFamily') || undefined;
 
+    const titleGap = params.get('titleGap') || undefined;
+    const timeGap = params.get('timeGap') || undefined;
+    const blockPadding = params.get('blockPadding') || undefined;
+
     if (!targetDate) {
       return (
         <div className="flex items-center justify-center h-screen bg-neutral-100 text-neutral-500 font-sans">
@@ -45,6 +49,9 @@ export default function App() {
           labelSize={labelSize}
           fontFamily={fontFamily}
           titleFontFamily={titleFontFamily}
+          titleGap={titleGap}
+          timeGap={timeGap}
+          blockPadding={blockPadding}
         />
       </div>
     );
