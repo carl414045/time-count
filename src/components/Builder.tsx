@@ -72,10 +72,10 @@ export function Builder() {
 
   return (
     <div className="min-h-screen bg-neutral-100 text-neutral-900 p-6 sm:p-10 font-sans">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="max-w-[1600px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         {/* Left Column: Settings */}
-        <div className="lg:col-span-5 space-y-8">
+        <div className="lg:col-span-4 xl:col-span-3 space-y-8">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold tracking-tight">倒數計時器產生器</h1>
             <p className="text-neutral-500">
@@ -107,38 +107,40 @@ export function Builder() {
                 
                 <div>
                   <label className="block text-sm font-medium text-neutral-700 mb-1">
-                    目標日期與時間 (24小時制)
+                    目標日期與時間
                   </label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <input
                       type="date"
                       value={datePart}
                       onChange={(e) => setDatePart(e.target.value)}
-                      className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="flex-[2] min-w-[140px] px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     />
-                    <select
-                      value={hourPart}
-                      onChange={(e) => setHourPart(e.target.value)}
-                      className="px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    >
-                      {Array.from({ length: 24 }).map((_, i) => (
-                        <option key={i} value={String(i).padStart(2, "0")}>
-                          {String(i).padStart(2, "0")}
-                        </option>
-                      ))}
-                    </select>
-                    <span className="flex items-center text-neutral-500 font-bold">:</span>
-                    <select
-                      value={minutePart}
-                      onChange={(e) => setMinutePart(e.target.value)}
-                      className="px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    >
-                      {Array.from({ length: 60 }).map((_, i) => (
-                        <option key={i} value={String(i).padStart(2, "0")}>
-                          {String(i).padStart(2, "0")}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="flex flex-1 min-w-[130px] gap-1.5 items-center">
+                      <select
+                        value={hourPart}
+                        onChange={(e) => setHourPart(e.target.value)}
+                        className="flex-1 px-2 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      >
+                        {Array.from({ length: 24 }).map((_, i) => (
+                          <option key={i} value={String(i).padStart(2, "0")}>
+                            {String(i).padStart(2, "0")}
+                          </option>
+                        ))}
+                      </select>
+                      <span className="text-neutral-500 font-bold">:</span>
+                      <select
+                        value={minutePart}
+                        onChange={(e) => setMinutePart(e.target.value)}
+                        className="flex-1 px-2 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      >
+                        {Array.from({ length: 60 }).map((_, i) => (
+                          <option key={i} value={String(i).padStart(2, "0")}>
+                            {String(i).padStart(2, "0")}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
 
@@ -245,9 +247,9 @@ export function Builder() {
 
                 <div className="pt-4 border-t border-neutral-100">
                   <h4 className="text-sm font-medium text-neutral-700 mb-3">標題排版設定</h4>
-                  <div className="grid grid-cols-2 gap-3 mb-5">
+                  <div className="grid grid-cols-1 2xl:grid-cols-2 gap-3 mb-5">
                     <div>
-                      <label className="block text-xs text-neutral-500 mb-1">字體 (Google Fonts)</label>
+                      <label className="block text-xs text-neutral-500 mb-1">字體</label>
                       <select
                         value={titleFontFamily}
                         onChange={(e) => setTitleFontFamily(e.target.value)}
@@ -278,9 +280,9 @@ export function Builder() {
                   </div>
 
                   <h4 className="text-sm font-medium text-neutral-700 mb-3 pt-4 border-t border-neutral-50">時間排版設定</h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    <div className="col-span-2 sm:col-span-1 border-b sm:border-b-0 sm:border-r border-neutral-100 pb-3 sm:pb-0 sm:pr-3">
-                      <label className="block text-xs text-neutral-500 mb-1">字體 (Google Fonts)</label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="col-span-2">
+                      <label className="block text-xs text-neutral-500 mb-1">字體</label>
                       <select
                         value={fontFamily}
                         onChange={(e) => setFontFamily(e.target.value)}
@@ -295,7 +297,7 @@ export function Builder() {
                         <option value="'JetBrains Mono', monospace">JetBrains Mono</option>
                       </select>
                     </div>
-                    <div className="col-span-1 sm:pl-1">
+                    <div className="col-span-1">
                       <label className="block text-xs text-neutral-500 mb-1">數字大小</label>
                       <div className="flex items-center gap-1.5">
                         <input
@@ -324,8 +326,8 @@ export function Builder() {
                   </div>
 
                   <h4 className="text-sm font-medium text-neutral-700 mb-3 pt-4 border-t border-neutral-50">間距設定</h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    <div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="col-span-2 2xl:col-span-1">
                       <label className="block text-xs text-neutral-500 mb-1">標題與時間間距</label>
                       <div className="flex items-center gap-1.5">
                         <input
@@ -338,7 +340,7 @@ export function Builder() {
                         <span className="text-xs text-neutral-500 shrink-0">px</span>
                       </div>
                     </div>
-                    <div>
+                    <div className="col-span-2 2xl:col-span-1">
                       <label className="block text-xs text-neutral-500 mb-1">時間區塊間距</label>
                       <div className="flex items-center gap-1.5">
                         <input
@@ -351,7 +353,7 @@ export function Builder() {
                         <span className="text-xs text-neutral-500 shrink-0">px</span>
                       </div>
                     </div>
-                    <div>
+                    <div className="col-span-2">
                       <label className="block text-xs text-neutral-500 mb-1">時間框內留白</label>
                       <div className="flex items-center gap-1.5">
                         <input
@@ -433,9 +435,9 @@ export function Builder() {
                   <span className="text-xs text-neutral-400 font-mono">HTML</span>
                   <button
                     onClick={handleCopy}
-                    className="text-xs flex items-center gap-1.5 text-neutral-300 hover:text-white transition-colors"
+                    className={`text-xs flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-colors ${copied ? 'bg-green-600 hover:bg-green-500 text-white' : 'bg-blue-600 hover:bg-blue-500 text-white'}`}
                   >
-                    {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                     {copied ? "已複製！" : "複製程式碼"}
                   </button>
                 </div>
@@ -454,7 +456,7 @@ export function Builder() {
         </div>
 
         {/* Right Column: Preview */}
-        <div className="lg:col-span-7 flex flex-col">
+        <div className="lg:col-span-8 xl:col-span-9 flex flex-col">
           <div className="sticky top-10 space-y-4">
             <h3 className="text-lg font-medium px-1 text-neutral-700">即時預覽</h3>
             <div className="w-full rounded-2xl shadow-inner border border-neutral-200/50 bg-neutral-200/50 flex items-center justify-center overflow-auto p-4 sm:p-8 min-h-[400px]">
